@@ -559,15 +559,22 @@ body.nav-active { overflow: hidden; }
   100% { transform: rotate(1turn); }
 }
 
+.preload-logo {
+  width: 140px;
+  height: 120px;
+  margin-bottom: 30px;
+}
+
 .preload .text {
   background-image: var(--loading-text-gradient);
   background-size: 500%;
-  font-size: calc(2rem + 3vw);
+  font-size: calc(1.2rem + 2vw);
   font-weight: var(--weight-bold);
   line-height: 1em;
   text-transform: uppercase;
   letter-spacing: 16px;
   padding-inline-start: 16px;
+  margin-bottom: 30px;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
@@ -691,7 +698,32 @@ body.nav-active { overflow: hidden; }
 .navbar .logo {
   max-width: max-content;
   margin-inline: auto;
-  margin-block-end: 60px;
+  margin-block-end: 30px;
+}
+
+.logo {
+  display: flex;
+  align-items: flex-end;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  text-transform: uppercase;
+  letter-spacing: var(--letterSpacing-3);
+}
+
+.logo-line {
+  font-size: var(--fontSize-label-1);
+  font-weight: var(--weight-bold);
+  color: var(--white);
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+
+.logo-line.drooms {
+  color: var(--gold-crayola);
 }
 
 .navbar-list {
