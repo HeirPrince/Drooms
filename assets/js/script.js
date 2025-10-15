@@ -170,3 +170,42 @@ window.addEventListener("mousemove", function (event) {
   }
 
 });
+
+
+
+/**
+ * IDLE MENU HIDE
+ * 
+ * Hide header after 2 seconds of inactivity
+ */
+
+let idleTimer;
+let isMenuHidden = false;
+
+const resetIdleTimer = function () {
+  clearTimeout(idleTimer);
+  
+  // Show menu if it was hidden by idle timer
+  if (isMenuHidden) {
+    header.classList.remove("idle-hidden");
+    isMenuHidden = false;
+  }
+  
+  // Set timer to hide menu after 2 seconds of inactivity
+  idleTimer = setTimeout(() => {
+    if (window.scrollY >= 50 && !header.classList.contains("hide")) { // Only hide if user has scrolled down and menu isn't already hidden by scroll
+      header.classList.add("idle-hidden");
+      isMenuHidden = true;
+    }
+  }, 2000);
+};
+
+// Events that reset the idle timer
+const idleEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+
+idleEvents.forEach(event => {
+  document.addEventListener(event, resetIdleTimer, true);
+});
+
+// Initialize the timer
+resetIdleTimer();
