@@ -182,11 +182,8 @@ body {
   font-size: var(--fontSize-body-4);
   font-weight: var(--weight-regular);
   line-height: var(--lineHeight-5);
-  overflow: hidden;
-  height: 300vh;
+  overflow: overlay;
 }
-
-body.loaded { overflow: overlay; }
 
 body.nav-active { overflow: hidden; }
 
@@ -828,7 +825,8 @@ body.nav-active { overflow: hidden; }
   padding-block-start: 100px;
   opacity: 0;
   visibility: hidden;
-  transition: var(--transition-3);
+  transition: opacity 1600ms cubic-bezier(0.4, 0, 0.2, 1), visibility 1600ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, visibility;
   z-index: 1;
 }
 
@@ -857,7 +855,7 @@ body.nav-active { overflow: hidden; }
 }
 
 .hero .slider-item.active .slider-bg {
-  animation: smoothScale 7s linear forwards;
+  animation: smoothScale 10s ease-in-out forwards;
 }
 
 @keyframes smoothScale {
@@ -870,6 +868,29 @@ body.nav-active { overflow: hidden; }
 .hero-text { margin-block: 10px 40px; }
 
 .hero .btn { margin-inline: auto; }
+
+/* Scroll reveal animations */
+.section.reveal-init {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 800ms cubic-bezier(0.4, 0, 0.2, 1), transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.section.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero .slider-item,
+  .section.reveal-init {
+    transition-duration: 0ms;
+  }
+  .hero .slider-item.active .slider-bg {
+    animation: none;
+  }
+}
 
 .hero-btn {
   position: absolute;

@@ -2,20 +2,7 @@
 
 
 
-/**
- * PRELOAD
- * 
- * loading will be end after document is loaded
- */
-
-const preloader = document.querySelector("[data-preaload]");
-
-window.addEventListener("load", function () {
-  setTimeout(() => {
-    preloader.classList.add("loaded");
-    document.body.classList.add("loaded");
-  }, 2000); // 2 second delay
-});
+// Preloader removed
 
 
 
@@ -133,7 +120,7 @@ let autoSlideInterval;
 const autoSlide = function () {
   autoSlideInterval = setInterval(function () {
     slideNext();
-  }, 7000);
+  }, 8000);
 }
 
 addEventOnElements([heroSliderNextBtn, heroSliderPrevBtn], "mouseover", function () {
@@ -145,6 +132,26 @@ addEventOnElements([heroSliderNextBtn, heroSliderPrevBtn], "mouseout", autoSlide
 window.addEventListener("load", autoSlide);
 
 
+
+/**
+ * SCROLL REVEAL
+ */
+
+const sections = document.querySelectorAll('.section');
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-revealed');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
+
+sections.forEach((el) => {
+  el.classList.add('reveal-init');
+  revealObserver.observe(el);
+});
 
 /**
  * PARALLAX EFFECT
