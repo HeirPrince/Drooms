@@ -1194,7 +1194,7 @@ body.nav-active { overflow: hidden; }
 \*-----------------------------------*/
 
 .testi {
-  padding-block-end: 340px;
+  padding-block-end: 120px;
   position: static;
 }
 
@@ -1234,7 +1234,7 @@ body.nav-active { overflow: hidden; }
   #RESERVATION
 \*-----------------------------------*/
 
-.reservation-form { margin-block-start: -270px; }
+.reservation-form { margin-block-start: 0; }
 
 .form-text { margin-block-end: 40px; }
 
