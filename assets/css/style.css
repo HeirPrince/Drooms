@@ -849,6 +849,13 @@ body.nav-active { overflow: hidden; }
   z-index: -1;
 }
 
+.hero .slider-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
 .hero .slider-item.active .slider-bg {
   animation: smoothScale 7s linear forwards;
 }
@@ -1089,6 +1096,12 @@ body.nav-active { overflow: hidden; }
 
 .hover\:card .card-banner .img-cover { transition: var(--transition-2); }
 
+.menu-card .card-banner .img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .hover\:card:is(:hover, :focus-within) .card-banner .img-cover {
   opacity: 0.7;
   transform: scale(1.05);
@@ -1097,6 +1110,8 @@ body.nav-active { overflow: hidden; }
 .menu-card .card-banner {
   flex-shrink: 0;
   border-radius: var(--radius-24);
+  width: 100px;
+  height: 100px;
 }
 
 .menu-card .card-title { transition: var(--transition-1); }
