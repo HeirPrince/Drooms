@@ -123,11 +123,7 @@ const autoSlide = function () {
   }, 8000);
 }
 
-addEventOnElements([heroSliderNextBtn, heroSliderPrevBtn], "mouseover", function () {
-  clearInterval(autoSlideInterval);
-});
-
-addEventOnElements([heroSliderNextBtn, heroSliderPrevBtn], "mouseout", autoSlide);
+// Slider runs continuously - no pause on hover
 
 window.addEventListener("load", autoSlide);
 
