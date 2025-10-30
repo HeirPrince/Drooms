@@ -173,3 +173,100 @@ window.addEventListener("mousemove", function (event) {
   }
 
 });
+
+/**
+ * VIDEO TABS (single video segment playback in About Us)
+ */
+(function initVideoTabs() {
+  const tabsRoot = document.querySelector('[data-video-tabs]');
+  const videoEl = document.querySelector('.about-video video');
+  if (!tabsRoot || !videoEl) return;
+
+  let segStart = 0;
+  let segEnd = Number.POSITIVE_INFINITY; // Infinity => play full video without looping
+
+  const setActive = (btn) => {
+    const all = tabsRoot.querySelectorAll('.tab-btn');
+    all.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  };
+
+  const applySegment = (start, end) => {
+    segStart = start ?? 0;
+    segEnd = (end === undefined || isNaN(end)) ? Number.POSITIVE_INFINITY : end;
+    try {
+      videoEl.currentTime = segStart;
+      videoEl.play().catch(() => {});
+    } catch (_) {}
+  };
+
+  tabsRoot.addEventListener('click', (e) => {
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    const isFull = btn.hasAttribute('data-full');
+    const start = isFull ? 0 : parseFloat(btn.getAttribute('data-start') || '0');
+    const endAttr = isFull ? undefined : btn.getAttribute('data-end');
+    const end = endAttr === null ? undefined : parseFloat(endAttr);
+    setActive(btn);
+    applySegment(start, end);
+  });
+
+  // Loop within the selected range
+  videoEl.addEventListener('timeupdate', () => {
+    if (Number.isFinite(segEnd) && videoEl.currentTime >= segEnd - 0.12) {
+      videoEl.currentTime = segStart;
+      videoEl.play().catch(() => {});
+    }
+  });
+
+  // Initialize to first active tab
+  const initial = tabsRoot.querySelector('.tab-btn.active');
+  if (initial) {
+    const isFull = initial.hasAttribute('data-full');
+    if (isFull) {
+      applySegment(0, undefined); // full video
+    } else {
+      const s = parseFloat(initial.getAttribute('data-start') || '0');
+      const e = parseFloat(initial.getAttribute('data-end') || '6');
+      applySegment(s, e);
+    }
+  }
+})();
+
+/**
+ * VIDEO SCREENS (simultaneous scene loops)
+ */
+(function initVideoScreens() {
+  const screens = document.querySelectorAll('[data-video-screen]');
+  if (!screens.length) return;
+
+  screens.forEach((el) => {
+    const video = el.querySelector('.screen-video');
+    if (!video) return;
+    const start = parseFloat(el.getAttribute('data-start') || '0');
+    const end = parseFloat(el.getAttribute('data-end') || '6');
+    try { video.currentTime = start; } catch (_) {}
+
+    const loop = () => {
+      if (video.currentTime >= end - 0.12) {
+        video.currentTime = start;
+        video.play().catch(() => {});
+      }
+    };
+    video.addEventListener('timeupdate', loop);
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: 0.5 });
+
+    obs.observe(el);
+  });
+})();
+
+// video segment tiles removed

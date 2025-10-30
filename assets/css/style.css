@@ -1061,6 +1061,80 @@ body.nav-active { overflow: hidden; }
   animation: rotate360 15s linear infinite;
 }
 
+/* Make the About video more visible */
+.about-video { margin: 24px 0; }
+.about-video video {
+  display: block;
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  outline: 2px solid rgba(255, 255, 255, 0.15);
+  outline-offset: -1px;
+  filter: brightness(1.06) contrast(1.05) saturate(1.08);
+}
+
+.video-tabs {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 10px 0 24px;
+}
+
+.video-tabs .tab-btn {
+  padding: 8px 14px;
+  border: 1px solid var(--white-alpha-20);
+  border-radius: 999px;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.06);
+  transition: var(--transition-1);
+}
+
+.video-tabs .tab-btn.active,
+.video-tabs .tab-btn:is(:hover, :focus-visible) {
+  border-color: var(--gold-crayola);
+  color: var(--black);
+  background: var(--gold-crayola);
+}
+
+/* Multiple "screens" showing different scenes */
+.video-screens {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin-top: 10px;
+}
+
+.screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--eerie-black-3);
+  border: 1px solid var(--white-alpha-10);
+  box-shadow: 0 10px 28px rgba(0,0,0,.35);
+  transition: transform var(--transition-2), box-shadow var(--transition-2);
+}
+
+.screen:is(:hover, :focus-within) {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 42px rgba(0,0,0,.45);
+}
+
+.screen .screen-ratio { position: relative; width: 100%; padding-top: 56.25%; }
+.video-screens { grid-auto-rows: 1fr; }
+@supports (aspect-ratio: 16 / 9) {
+  .screen .screen-ratio { padding-top: 0; aspect-ratio: 16 / 9; }
+}
+.screen video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(1.05) contrast(1.05); }
+.screen-label { position: absolute; left: 10px; bottom: 10px; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,.55); }
+
+@media (min-width: 768px) {
+  .video-screens { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1200px) {
+  .video-screens { grid-template-columns: repeat(3, 1fr); }
+}
+
 
 
 
@@ -1189,13 +1263,38 @@ body.nav-active { overflow: hidden; }
 
 
 
+/* video menu styles removed */
+
 /*-----------------------------------*\
   #TESTIMONIALS
 \*-----------------------------------*/
 
 .testi {
   padding-block-end: 120px;
-  position: static;
+  position: relative;
+}
+
+/* Dark overlay for readability on background image */
+.testi.has-bg-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 0;
+}
+
+/* Ensure testimonial content sits above overlay and remains highly readable */
+.testi > .container,
+.testi .quote,
+.testi .wrapper,
+.testi .testi-text {
+  position: relative;
+  z-index: 1;
+}
+
+.testi .testi-text {
+  color: var(--white);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
 }
 
 .testi .quote {
